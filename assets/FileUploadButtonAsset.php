@@ -13,8 +13,8 @@ use yii\web\AssetBundle;
  */
 class FileUploadButtonAsset extends AssetBundle
 {
-    public $basePath = '@vendor/eugenejk/image-uploader/';
-    public $sourcePath = '@vendor/eugenejk/image-uploader/pub/file-upload-button';
+    public $basePath = '@vendor/eugenejk/yii2-custom-fields/';
+    public $sourcePath = '@vendor/eugenejk/yii2-custom-fields/pub/file-upload-button';
     
     public $js = [
         'FileUploadButton.js',

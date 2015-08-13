@@ -2,7 +2,6 @@
 namespace eugenejk\customFields\widgets;
 use Yii;
 use yii\helpers\Html;
-use yii\helpers\Url;
 use yii\widgets\InputWidget;
 use eugenejk\customFields\assets\FileUploadButtonAsset;
 /*
@@ -145,6 +144,7 @@ class FileUploadButton extends InputWidget
     
     /**
      * Render Image section
+     * @return string
      */
     public function renderFileName(){
         return Html::tag($this->fileNameTag, $this->fileName, $this->fileNameOptions);
@@ -152,14 +152,17 @@ class FileUploadButton extends InputWidget
     
     /**
      * Render Button
+     * @return string
      */
     public function renderButton()
     {
-        
-        return $this->renderField()
-            . Html::button($this->title, $this->options);
+        return $this->renderField() . Html::button($this->title, $this->options);
     }
     
+    /**
+     * Render file input
+     * @return string
+     */
     public function renderField(){
         if ($this->hasModel()) {
             return Html::activeFileInput($this->model, $this->attribute, $this->inputOptions);
