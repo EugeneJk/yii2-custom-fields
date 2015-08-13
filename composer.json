@@ -1,0 +1,21 @@
+{
+    "name": "eugenejk/yii2-custom-fields",
+    "description": "Some useful custom fields for Yii2 forms",
+    "type": "yii2-extension",
+    "keywords": ["yii2","extension","custom fields"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Eugene Lazarchuk",
+            "email": "shadyjk@yandex.ru"
+        }
+    ],
+    "require": {
+        "yiisoft/yii2": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "eugenejk\\customFields\\": ""
+        }
+    }
+}
