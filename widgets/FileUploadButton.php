@@ -22,12 +22,12 @@ class FileUploadButton extends InputWidget
     /**
      * @var array Button tag options
      */
-    public $options = [];
+    public $buttonOptions = [];
     
     /**
      * @var array Upoad Input Button tag options
      */
-    public $inputOptions = [];
+    public $options = [];
     
     /**
      * @var string layout
@@ -61,20 +61,17 @@ class FileUploadButton extends InputWidget
     {
         parent::init();
         $uid = uniqid();
-        if(!array_key_exists('id',$this->options)){
-            $this->options['id'] = 'upload-button-' . $uid;
+        if(!array_key_exists('id',$this->buttonOptions)){
+            $this->buttonOptions['id'] = 'upload-button-' . $uid;
         }
-        if(!array_key_exists('class',$this->options)){
-            $this->options['class'] = ['btn', 'btn-default'];
+        if(!array_key_exists('class',$this->buttonOptions)){
+            $this->buttonOptions['class'] = ['btn', 'btn-default'];
         }
         
-        if(!array_key_exists('style',$this->inputOptions)){
-            $this->inputOptions['style'] = ['display' => 'none'];
+        if(!array_key_exists('style',$this->options)){
+            $this->options['style'] = ['display' => 'none'];
         } else {
-            $this->inputOptions['style']['display'] = 'none';
-        }
-        if(!array_key_exists('id',$this->inputOptions)){
-            $this->inputOptions['id'] = 'file-input-' . $uid;
+            $this->options['style']['display'] = 'none';
         }
         
         if(!array_key_exists('id',$this->fileNameOptions)){
@@ -103,14 +100,13 @@ class FileUploadButton extends InputWidget
      */
     public function registerJs(){
         $initObject = json_encode([
-            'uploadButtonId' => $this->options['id'],
+            'uploadButtonId' => $this->buttonOptions['id'],
             'fileNameAreaId' => $this->fileNameOptions['id'],
-            'fileInputId' => $this->inputOptions['id'],
+            'fileInputId' => $this->options['id'],
         ]);
         FileUploadButtonAsset::register($this->view);
         $this->view->registerJs("{$this->javascriptVarName} = new FileUploadButton($initObject)");
     }
-    
     /**
      * Renders widget
      * @return string
@@ -156,7 +152,7 @@ class FileUploadButton extends InputWidget
      */
     public function renderButton()
     {
-        return $this->renderField() . Html::button($this->title, $this->options);
+        return $this->renderField() . Html::button($this->title, $this->buttonOptions);
     }
     
     /**
@@ -165,9 +161,9 @@ class FileUploadButton extends InputWidget
      */
     public function renderField(){
         if ($this->hasModel()) {
-            return Html::activeFileInput($this->model, $this->attribute, $this->inputOptions);
+            return Html::activeFileInput($this->model, $this->attribute, $this->options);
         } else {
-            return Html::fileInput($this->name, $this->value, $this->inputOptions);
+            return Html::fileInput($this->name, $this->value, $this->options);
         }
     }
     
