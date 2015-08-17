@@ -11,7 +11,7 @@ namespace eugenejk\customFields\widgets;
 use Yii;
 use yii\helpers\Html;
 use yii\widgets\InputWidget;
-use eugenejk\customFields\assets\FileUploadButtonAsset;
+use eugenejk\customFields\assets\CustomFieldsAsset;
 
 /**
  * Custom File Input button.
@@ -110,7 +110,7 @@ class FileUploadButton extends InputWidget
             'fileNameAreaId' => $this->fileNameOptions['id'],
             'fileInputId' => $this->options['id'],
         ]);
-        FileUploadButtonAsset::register($this->view);
+        CustomFieldsAsset::register($this->view);
         $this->view->registerJs("{$this->javascriptVarName} = new FileUploadButton($initObject)");
     }
 

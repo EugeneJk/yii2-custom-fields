@@ -9,6 +9,8 @@ use Yii;
 use yii\helpers\Html;
 use yii\widgets\InputWidget;
 
+use eugenejk\customFields\assets\CustomFieldsAsset;
+
 /**
  * Template for Custom Inputs
  *
@@ -83,7 +85,7 @@ abstract class BaseAbstractInput extends InputWidget
      */
     public function registerJs()
     {
-        
+        CustomFieldsAsset::register($this->view);
     }
 
     /**
