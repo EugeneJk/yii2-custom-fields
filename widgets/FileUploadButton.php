@@ -92,7 +92,7 @@ class FileUploadButton extends InputWidget
     public function run()
     {
         $this->registerJs();
-        return $this->render();
+        return $this->renderW();
     }
     
     /**
@@ -111,7 +111,7 @@ class FileUploadButton extends InputWidget
      * Renders widget
      * @return string
      */
-    public function render(){
+    public function renderW(){
         $content = preg_replace_callback("/{\\w+}/", function ($matches) {
             $content = $this->renderSection($matches[0]);
             return $content === false ? $matches[0] : $content;
