@@ -92,7 +92,7 @@ class FileUploadButton extends InputWidget
     public function run()
     {
         $this->registerJs();
-        return $this->renderW();
+        return $this->render();
     }
     
     /**
@@ -107,11 +107,12 @@ class FileUploadButton extends InputWidget
         FileUploadButtonAsset::register($this->view);
         $this->view->registerJs("{$this->javascriptVarName} = new FileUploadButton($initObject)");
     }
+    
     /**
      * Renders widget
      * @return string
      */
-    public function renderW(){
+    public function render($view = null, $params = array()) {
         $content = preg_replace_callback("/{\\w+}/", function ($matches) {
             $content = $this->renderSection($matches[0]);
             return $content === false ? $matches[0] : $content;
