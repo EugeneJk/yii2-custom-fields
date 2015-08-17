@@ -18,7 +18,8 @@ class CustomFieldsAsset extends AssetBundle
     
     public $js = [
         'FileUploadButton.js',
-        'FileUploadInput.js'
+        'FileUploadInput.js',
+        'AjaxFileUploader.js',
     ];
     
     public $css = [
