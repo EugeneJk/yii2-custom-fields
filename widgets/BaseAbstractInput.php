@@ -10,6 +10,7 @@ use yii\helpers\Html;
 use yii\widgets\InputWidget;
 
 use eugenejk\customFields\assets\CustomFieldsAsset;
+use eugenejk\customFields\widgets\buttons\FileUploadButton;
 
 /**
  * Template for Custom Inputs
@@ -46,7 +47,7 @@ abstract class BaseAbstractInput extends InputWidget
     /**
      * Layout for buttons.
      */
-    public $buttonsLayout = "{select}\n{upload}\n{clear}\n{reset}";
+    public $buttonsLayout = "{select}\n{progress}\n{upload}\n{clear}\n{reset}";
 
     /**
      * @var string java script variable name which controls forntend behaviour
@@ -143,9 +144,61 @@ abstract class BaseAbstractInput extends InputWidget
     abstract function renderView();
 
     /**
-     * Render single button
+     * Render file chouse button
+     * @return string
      */
-    abstract function renderButton($buttonName);
+    public function renderButton($buttonName)
+    {
+        switch ($buttonName) {
+            case '{select}':
+                return FileUploadButton::widget($this->fileUploadButtonOptions);
+            case '{progress}':
+                return Html::tag(
+                    'div',
+                    Html::tag(
+                        'div',
+                        Html::tag('span','60% Complete',['class' => 'sr-only']),
+                        [
+                            'class' => 'progress-bar',
+                            'role' => 'progressbar',
+                            'aria-valuenow' => 60,
+                            'aria-valuemin' => 0,
+                            'aria-valuemax' => 100,
+                            'style' => 'width: 60%;'
+                        ]
+                    ),
+                    ['class' => 'progress']
+                );
+            case '{upload}':
+                $content = '<i class="glyphicon glyphicon-upload"></i>';
+                $options = [
+                    'class' => 'btn btn-primary',
+                    'title' => 'Upload',
+                    'onclick' => "{$this->javascriptVarName}.upload();return false;",
+                ];
+                break;
+            case '{clear}':
+                $content = '<i class="glyphicon glyphicon glyphicon-trash"></i>';
+                $options = [
+                    'class' => 'btn btn-warning pull-right',
+                    'title' => 'Clear',
+                    'onclick' => "{$this->javascriptVarName}.clear(false);return false;",
+                ];
+                break;
+            case '{reset}':
+                $content = '<i class="glyphicon glyphicon-picture"></i>';
+                $options = [
+                    'class' => 'btn btn-default pull-right',
+                    'title' => 'Original',
+                    'onclick' => "{$this->javascriptVarName}.clear(true);return false;",
+                ];
+                break;
+            default:
+                return false;
+        }        
+        $options['type'] = 'button';
+        return Html::button($content, $options);
+    }
 
     /**
      * Render file input

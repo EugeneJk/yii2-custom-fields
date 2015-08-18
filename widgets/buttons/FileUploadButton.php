@@ -6,7 +6,7 @@
  * @license MIT 
  */
 
-namespace eugenejk\customFields\widgets;
+namespace eugenejk\customFields\widgets\buttons;
 
 use Yii;
 use yii\helpers\Html;
