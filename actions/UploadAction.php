@@ -32,6 +32,9 @@ class UploadAction extends Action
             $name = $_FILES["file"]["name"];
             move_uploaded_file($tmp_name, "$uploads_dir/$name");
         }
-        return ['status' => 'ok'];
+        return [
+            'success' => true,
+            'value' => '/uploads/some.file.txt',
+        ];
     }
 }

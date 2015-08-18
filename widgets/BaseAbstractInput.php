@@ -6,11 +6,13 @@
 namespace eugenejk\customFields\widgets;
 
 use Yii;
+use yii\bootstrap\Progress;
 use yii\helpers\Html;
 use yii\widgets\InputWidget;
 
 use eugenejk\customFields\assets\CustomFieldsAsset;
 use eugenejk\customFields\widgets\buttons\FileUploadButton;
+use eugenejk\customFields\widgets\buttons\UploadActionButton;
 
 /**
  * Template for Custom Inputs
@@ -19,6 +21,16 @@ use eugenejk\customFields\widgets\buttons\FileUploadButton;
  */
 abstract class BaseAbstractInput extends InputWidget
 {
+    /**
+     * @var string form id
+     */
+    public $formId;
+    
+    /**
+     * @var string form id
+     */
+    public $uploadActionUrl = '';
+    
     /**
      * @var string output filename wrapper tag
      */
@@ -48,7 +60,32 @@ abstract class BaseAbstractInput extends InputWidget
      * Layout for buttons.
      */
     public $buttonsLayout = "{select}\n{progress}\n{upload}\n{clear}\n{reset}";
+    
+    /**
+     * @var array file upload button options
+     */
+    public $fileUploadButtonOptions = [];
+    
+    /**
+     * @var array progress bar options 
+     */
+    public $progressBarOptions = [];
+    
+    /**
+     * @var array upload button options
+     */
+    public $uploadButtonOptions = [];
 
+    /**
+     * @var array clear button options
+     */
+    public $clearButtonOptions = [];
+    
+    /**
+     * @var array reset button options
+     */
+    public $resetButtonOptions = [];
+    
     /**
      * @var string java script variable name which controls forntend behaviour
      */
@@ -66,7 +103,50 @@ abstract class BaseAbstractInput extends InputWidget
     {
         parent::init();
         $this->_uid = uniqid();
+        
+        if(!isset($this->progressBarOptions['id'])){
+            $this->progressBarOptions['id'] = 'upload-file-progress-' . $this->_uid;
+        }
+        
+        if(!isset($this->uploadButtonOptions['name'])){
+            $this->uploadButtonOptions['name'] = 'Upload';
+        }
+        if(!isset($this->uploadButtonOptions['class'])){
+            $this->uploadButtonOptions['class'] = 'btn btn-primary';
+        }
+        if(!isset($this->uploadButtonOptions['title'])){
+            $this->uploadButtonOptions['title'] = 'Upload';
+        }
+        if(!isset($this->uploadButtonOptions['onclick'])){
+            $this->uploadButtonOptions['onclick'] = 'alert("ADD UPLOAD ACTION")';
+        }
+        
+        if(!isset($this->clearButtonOptions['name'])){
+            $this->clearButtonOptions['name'] = 'Clear';
+        }
+        if(!isset($this->clearButtonOptions['class'])){
+            $this->clearButtonOptions['class'] = 'btn btn-warning pull-right';
+        }
+        if(!isset($this->clearButtonOptions['title'])){
+            $this->clearButtonOptions['title'] = 'Clear';
+        }
+        if(!isset($this->clearButtonOptions['onclick'])){
+            $this->clearButtonOptions['onclick'] = 'alert("ADD CLEAR ACTION")';
+        }
 
+        if(!isset($this->resetButtonOptions['name'])){
+            $this->resetButtonOptions['name'] = 'Restore';
+        }
+        if(!isset($this->resetButtonOptions['class'])){
+            $this->resetButtonOptions['class'] = 'btn btn-default pull-right';
+        }
+        if(!isset($this->resetButtonOptions['title'])){
+            $this->resetButtonOptions['title'] = 'Restore to Original';
+        }
+        if(!isset($this->resetButtonOptions['onclick'])){
+            $this->resetButtonOptions['onclick'] = 'alert("ADD RESET ACTION")';
+        }
+        
         if (!$this->javascriptVarName) {
             $this->javascriptVarName = 'fileUploadInput_' . $this->_uid;
         }
@@ -153,51 +233,21 @@ abstract class BaseAbstractInput extends InputWidget
             case '{select}':
                 return FileUploadButton::widget($this->fileUploadButtonOptions);
             case '{progress}':
-                return Html::tag(
-                    'div',
-                    Html::tag(
-                        'div',
-                        Html::tag('span','60% Complete',['class' => 'sr-only']),
-                        [
-                            'class' => 'progress-bar',
-                            'role' => 'progressbar',
-                            'aria-valuenow' => 60,
-                            'aria-valuemin' => 0,
-                            'aria-valuemax' => 100,
-                            'style' => 'width: 60%;'
-                        ]
-                    ),
-                    ['class' => 'progress']
-                );
+                return Progress::widget($this->progressBarOptions);
             case '{upload}':
-                $content = '<i class="glyphicon glyphicon-upload"></i>';
-                $options = [
-                    'class' => 'btn btn-primary',
-                    'title' => 'Upload',
-                    'onclick' => "{$this->javascriptVarName}.upload();return false;",
-                ];
-                break;
+                $name = $this->uploadButtonOptions['name'];
+                unset($this->uploadButtonOptions['name']);
+                return Html::button($name, $this->uploadButtonOptions); 
             case '{clear}':
-                $content = '<i class="glyphicon glyphicon glyphicon-trash"></i>';
-                $options = [
-                    'class' => 'btn btn-warning pull-right',
-                    'title' => 'Clear',
-                    'onclick' => "{$this->javascriptVarName}.clear(false);return false;",
-                ];
-                break;
+                $name = $this->clearButtonOptions['name'];
+                unset($this->clearButtonOptions['name']);
+                return Html::button($name, $this->clearButtonOptions); 
             case '{reset}':
-                $content = '<i class="glyphicon glyphicon-picture"></i>';
-                $options = [
-                    'class' => 'btn btn-default pull-right',
-                    'title' => 'Original',
-                    'onclick' => "{$this->javascriptVarName}.clear(true);return false;",
-                ];
-                break;
-            default:
-                return false;
+                $name = $this->resetButtonOptions['name'];
+                unset($this->resetButtonOptions['name']);
+                return Html::button($name, $this->resetButtonOptions); 
         }        
-        $options['type'] = 'button';
-        return Html::button($content, $options);
+        return false;
     }
 
     /**
@@ -212,5 +262,5 @@ abstract class BaseAbstractInput extends InputWidget
             return Html::hiddenInput($this->name, $this->value, $this->options);
         }
     }
-
+    
 }

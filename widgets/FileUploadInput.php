@@ -10,7 +10,6 @@ namespace eugenejk\customFields\widgets;
 
 use Yii;
 use yii\helpers\Html;
-
 /**
  * Custom File Input Field.
  * Uses Ajax uploading
@@ -18,11 +17,15 @@ use yii\helpers\Html;
 class FileUploadInput extends BaseAbstractInput
 {
     /**
-     * @var string file upload button name 
+     * @var string file preview tag 
      */
-    public $fileUploadButtonOptions = [];
+    public $filePreviewTag = 'div';
     
-
+    /**
+     * @var string file preview options 
+     */
+    public $filePreviewOptions = [];
+    
     /**
      * @inheritdoc
      */
@@ -33,7 +36,20 @@ class FileUploadInput extends BaseAbstractInput
         if(array_intersect(['model', 'attribute', 'name'], array_keys($this->fileUploadButtonOptions))){
             throw new Exception('You cannot use model, attribute, name keys in the upload button options ');
         }
-        $this->fileUploadButtonOptions['name'] = 'select-file-button_' . $this->_uid;
+        
+        if(!isset($this->fileUploadButtonOptions['name'])){
+            $this->fileUploadButtonOptions['name'] = 'select-file-button-' . $this->_uid;
+        }
+        if(!isset($this->fileUploadButtonOptions['id'])){
+            $this->fileUploadButtonOptions['id'] = 'select-file-button-' . $this->_uid;
+        }
+        
+        if(!isset($this->filePreviewOptions['id'])){
+            $this->filePreviewOptions['id'] = 'file-preview-' . $this->_uid;
+        }
+        
+        $this->uploadButtonOptions['onclick'] = "{$this->javascriptVarName}.upload();";
+        $this->clearButtonOptions['onclick'] = "{$this->javascriptVarName}.clear();";
     }
 
 
@@ -43,13 +59,16 @@ class FileUploadInput extends BaseAbstractInput
     public function registerJs()
     {
         parent::registerJs();
-//        $initObject = json_encode([
-//            'uploadButtonId' => $this->buttonOptions['id'],
-//            'fileNameAreaId' => $this->fileNameOptions['id'],
-//            'fileInputId' => $this->options['id'],
-//        ]);
-//        FileUploadButtonAsset::register($this->view);
-//        $this->view->registerJs("{$this->javascriptVarName} = new FileUploadButton($initObject)");
+       
+        $initObject = json_encode([
+            'fileInputId' => $this->fileUploadButtonOptions['id'],
+            'uploadUrl' => $this->uploadActionUrl,
+            'formId' => $this->formId,
+            'progressBarId' => $this->progressBarOptions['id'],
+            'fieldId' => $this->options['id'],
+            'filePreviewId' => $this->filePreviewOptions['id'],
+        ]);
+        $this->view->registerJs("{$this->javascriptVarName} = new FileUploadInput($initObject)");
     }
 
     /**
@@ -58,7 +77,11 @@ class FileUploadInput extends BaseAbstractInput
      */
     public function renderView()
     {
-        return $this->hasModel() ? $this->model->{$this->attribute} : $this->value;
+        return Html::tag(
+            $this->filePreviewTag,
+            $this->hasModel() ? $this->model->{$this->attribute} : $this->value,
+            $this->filePreviewOptions
+        );
     }
     
 }

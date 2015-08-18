@@ -2,7 +2,7 @@
  * use <b>run()</b> for start uploading
  * 
  * @param {object} initData: <ul>
- * <li>uploadInputId - id of file input</li>
+ * <li>fileInputId - id of file input</li>
  * <li><i>formId</i> - id of upload for to pickup _csrf param</li>
  * <li><i>uploadUrl</i> - upload action url</li>
  * <li><i>success</i> - on success function(result){}</li>
@@ -23,7 +23,7 @@ function AjaxFileUploader(initData) {
 
 
     var init = function (initData) {
-        input = document.getElementById(initData.uploadInputId);
+        input = document.getElementById(initData.fileInputId);
         if (initData.formId !== undefined || initData.formId !== '') {
             form = document.getElementById(initData.formId);
         }
@@ -36,7 +36,7 @@ function AjaxFileUploader(initData) {
         }
 
         if (initData.failure) {
-            success = initData.failure;
+            failure = initData.failure;
         }
 
         if (initData.progress) {
@@ -58,7 +58,7 @@ function AjaxFileUploader(initData) {
                     if (failure) {
                         failure(uploader);
                     } else {
-                        console.log(JSON.parse(uploader.responseText));
+                        console.log(uploader);
                     }
                 }
             }
