@@ -1,6 +1,6 @@
 {
     "name": "eugenejk/yii2-custom-fields",
-    "version": "0.1.4",
+    "version": "0.2.0",
     "description": "Some useful custom fields for Yii2 forms",
     "type": "yii2-extension",
     "keywords": ["yii2","extension","custom fields"],
