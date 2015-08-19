@@ -11,13 +11,15 @@ use yii\web\AssetBundle;
  *
  * @author eugene
  */
-class FileUploadButtonAsset extends AssetBundle
+class CustomFieldsAsset extends AssetBundle
 {
     public $basePath = '@vendor/eugenejk/yii2-custom-fields/';
-    public $sourcePath = '@vendor/eugenejk/yii2-custom-fields/pub/file-upload-button';
+    public $sourcePath = '@vendor/eugenejk/yii2-custom-fields/pub/js';
     
     public $js = [
         'FileUploadButton.js',
+        'FileUploadInput.js',
+        'AjaxFileUploader.js',
     ];
     
     public $css = [
