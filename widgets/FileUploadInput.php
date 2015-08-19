@@ -50,6 +50,7 @@ class FileUploadInput extends BaseAbstractInput
         
         $this->uploadButtonOptions['onclick'] = "{$this->javascriptVarName}.upload();";
         $this->clearButtonOptions['onclick'] = "{$this->javascriptVarName}.clear();";
+        $this->resetButtonOptions['onclick'] = "{$this->javascriptVarName}.reset();";
     }
 
 

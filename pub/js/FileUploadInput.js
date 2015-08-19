@@ -3,6 +3,7 @@ function FileUploadInput(initData) {
     var progressBarId = null;
     var field = null;
     var filePreview = null;
+    var originalValue = '';
 
     var init = function (initData) {
         uploader = new AjaxFileUploader({
@@ -17,6 +18,7 @@ function FileUploadInput(initData) {
         progressBarId = initData.progressBarId;
         field = document.getElementById(initData.fieldId);
         filePreview = document.getElementById(initData.filePreviewId);
+        originalValue = field.value;
     };
 
     var success = function (result) {
@@ -49,11 +51,19 @@ function FileUploadInput(initData) {
     };
     
     this.clear = function () {
-        field.value = '';
+        setValue("");
+    };
+    
+    this.reset = function () {
+        setValue(originalValue);
+    };
+    
+    var setValue = function(value){
+        field.value = value;
         if (filePreview) {
-            filePreview.innerHTML = '';
+            filePreview.innerHTML = value;
         }
     };
-
+    
     init(initData);
 }
