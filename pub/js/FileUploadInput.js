@@ -23,10 +23,7 @@ function FileUploadInput(initData) {
 
     var success = function (result) {
         if (result.success === true) {
-            field.value = result.value;
-            if (filePreview) {
-                filePreview.innerHTML = result.value;
-            }
+            setValue(result.access_link);
         } else {
             console.log('success', result);
         }

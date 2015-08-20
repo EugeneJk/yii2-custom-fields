@@ -1,8 +1,5 @@
 <?php
 /**
- * Custom File Input button
- * 
- * @author Eugene Lazarchuk <shadyjk@yandex.ru>
  * @license MIT 
  */
 
@@ -16,6 +13,8 @@ use eugenejk\customFields\assets\CustomFieldsAsset;
 /**
  * Custom File Input button.
  * Replacement of file input to be able customize button
+ * 
+ * @author Eugene Lazarchuk <shadyjk@yandex.ru>
  */
 class FileUploadButton extends InputWidget
 {
