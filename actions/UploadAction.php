@@ -21,33 +21,31 @@ use yii\web\UploadedFile;
  */
 class UploadAction extends Action
 {
-
     /**
      * @var string Path where uploaded file will be stored
      */
     public $savePath;
-    
+
     /**
      * @var string Url path to directory where file will be stored
      */
     public $accessUrl;
-    
+
     /**
      * @var boolean Is allow upload image only
      */
     public $isImage = false;
-    
+
     /**
      * @var array Validation options for file or image validator
      */
     public $validationOptions = [];
-    
+
     /**
      *
      * @var string Incoming form fild name 
      */
     public $incomingFieldName = 'file';
-
 
     /**
      * @inheritdoc
@@ -55,23 +53,23 @@ class UploadAction extends Action
     public function init()
     {
         parent::init();
-        
-        if(!$this->savePath){
+
+        if (!$this->savePath) {
             throw new InvalidConfigException('The "savePath" attribute must be set.');
         } else {
             $this->savePath = rtrim(Yii::getAlias($this->savePath), DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
 
-            if (!FileHelper::createDirectory($this->savePath)) {
+            if (!file_exists($this->savePath) && !FileHelper::createDirectory($this->savePath)) {
                 throw new InvalidCallException('Directory specified in "savePath" attribute doesn\'t exist or cannot be created.');
             }
         }
-        
-        if(!$this->accessUrl){
+
+        if (!$this->accessUrl) {
             throw new InvalidConfigException('The "accessUrl" attribute must be set.');
         } else {
             $this->accessUrl = $this->accessUrl = rtrim($this->accessUrl, '/') . '/';
         }
-        
+
         Yii::$app->response->format = Response::FORMAT_JSON;
     }
 
@@ -87,12 +85,18 @@ class UploadAction extends Action
             if ($model->hasErrors()) {
                 return $this->getResult(false, implode('; ', $model->getErrors('file')));
             } else {
-                // validation succeeds
-            }            
+                $filename = $file->baseName . '.' . $file->extension;
+                if (@$file->saveAs($this->savePath . $filename)) {
+                    return $this->getResult(true, '', [
+                                'access_link' => $this->accessUrl . $filename,
+                    ]);
+                }
+                return $this->getResult(false, 'File can\'t be placed to destination folder');
+            }
         } else {
             throw new BadRequestHttpException('Only Post request allowed for this action!');
         }
-        
+
         $uploads_dir = '/var/tmp';
         if ($_FILES["file"]["error"] == UPLOAD_ERR_OK) {
             $tmp_name = $_FILES["file"]["tmp_name"];
@@ -104,19 +108,20 @@ class UploadAction extends Action
             'value' => '/uploads/some.file.txt',
         ];
     }
-    
+
     /**
      * 
      * @param boolean $isSuccess
      * @param string $message Error message
      * @return array
      */
-    private function getResult($isSuccess, $message = 'Unknown error!'){
+    private function getResult($isSuccess, $message = '', $additionalParams = [])
+    {
         $result = ['success' => $isSuccess];
-        if(!$isSuccess){
+        if (!$isSuccess) {
             $result['message'] = $message;
         }
-        return $result;
+        return array_merge($result, $additionalParams);
     }
 
 }
