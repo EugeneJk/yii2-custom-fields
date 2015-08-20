@@ -42,10 +42,14 @@ class UploadAction extends Action
     public $validationOptions = [];
 
     /**
-     *
      * @var string Incoming form fild name 
      */
     public $incomingFieldName = 'file';
+
+    /**
+     * @var boolean 
+     */
+    public $isUseUniqueFileNames = true;
 
     /**
      * @inheritdoc
@@ -85,10 +89,14 @@ class UploadAction extends Action
             if ($model->hasErrors()) {
                 return $this->getResult(false, implode('; ', $model->getErrors('file')));
             } else {
-                $filename = $file->baseName . '.' . $file->extension;
+                if ($this->isUseUniqueFileNames) {
+                    $filename = uniqid() . '.' . $file->extension;
+                } else {
+                    $filename = $file->baseName . '_' . time() . '.' . $file->extension;
+                }
                 if (@$file->saveAs($this->savePath . $filename)) {
                     return $this->getResult(true, '', [
-                                'access_link' => $this->accessUrl . $filename,
+                        'access_link' => $this->accessUrl . $filename,
                     ]);
                 }
                 return $this->getResult(false, 'File can\'t be placed to destination folder');
@@ -104,8 +112,8 @@ class UploadAction extends Action
             move_uploaded_file($tmp_name, "$uploads_dir/$name");
         }
         return [
-            'success' => true,
-            'value' => '/uploads/some.file.txt',
+        'success' => true,
+        'value' => '/uploads/some.file.txt',
         ];
     }
 
