@@ -1,8 +1,5 @@
 <?php
 /**
- * Custom File Input Field
- * 
- * @author Eugene Lazarchuk <shadyjk@yandex.ru>
  * @license MIT 
  */
 
@@ -13,6 +10,8 @@ use yii\helpers\Html;
 /**
  * Custom File Input Field.
  * Uses Ajax uploading
+ * 
+ * @author Eugene Lazarchuk <shadyjk@yandex.ru>
  */
 class FileUploadInput extends BaseAbstractInput
 {
