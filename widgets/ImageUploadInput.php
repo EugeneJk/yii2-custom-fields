@@ -15,10 +15,6 @@ use yii\helpers\Html;
  */
 class ImageUploadInput extends BaseAbstractInput
 {
-    /**
-     * @var string file preview tag 
-     */
-    public $filePreviewTag = 'div';
     
     /**
      * @var string file preview options 
@@ -68,7 +64,7 @@ class ImageUploadInput extends BaseAbstractInput
             'fieldId' => $this->options['id'],
             'filePreviewId' => $this->filePreviewOptions['id'],
         ]);
-        $this->view->registerJs("{$this->javascriptVarName} = new FileUploadInput($initObject)");
+        $this->view->registerJs("{$this->javascriptVarName} = new ImageUploadInput($initObject)");
     }
 
     /**
@@ -77,9 +73,10 @@ class ImageUploadInput extends BaseAbstractInput
      */
     public function renderView()
     {
+        $this->filePreviewOptions['src'] = $this->hasModel() ? $this->model->{$this->attribute} : $this->value;
         return Html::tag(
-            $this->filePreviewTag,
-            $this->hasModel() ? $this->model->{$this->attribute} : $this->value,
+            'img',
+            null,
             $this->filePreviewOptions
         );
     }

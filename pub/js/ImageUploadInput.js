@@ -19,6 +19,10 @@ function ImageUploadInput(initData) {
         field = document.getElementById(initData.fieldId);
         filePreview = document.getElementById(initData.filePreviewId);
         originalValue = field.value;
+        if(field.value == ''){
+            filePreview.style.display = 'none';
+        }
+        
     };
 
     var success = function (result) {
@@ -58,7 +62,8 @@ function ImageUploadInput(initData) {
     var setValue = function(value){
         field.value = value;
         if (filePreview) {
-            filePreview.innerHTML = value;
+            filePreview.style.display = (value == '') ? 'none' : '';
+            filePreview.src = value;
         }
     };
     
