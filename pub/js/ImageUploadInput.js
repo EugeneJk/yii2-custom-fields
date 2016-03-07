@@ -1,0 +1,71 @@
+function ImageUploadInput(initData) {
+    var uploader = null;
+    var progressBarId = null;
+    var field = null;
+    var filePreview = null;
+    var originalValue = '';
+
+    var init = function (initData) {
+        uploader = new AjaxFileUploader({
+            fileInputId: initData.fileInputId,
+            uploadUrl: initData.uploadUrl,
+            formId: initData.formId,
+            success: success,
+            falure: failure,
+            progress: progress
+        });
+
+        progressBarId = initData.progressBarId;
+        field = document.getElementById(initData.fieldId);
+        filePreview = document.getElementById(initData.filePreviewId);
+        originalValue = field.value;
+        if(field.value == ''){
+            filePreview.style.display = 'none';
+        }
+        
+    };
+
+    var success = function (result) {
+        if (result.success === true) {
+            setValue(result.access_link);
+        } else {
+            console.log('success', result);
+        }
+    };
+
+    var failure = function (data) {
+        console.log('failure', data);
+    };
+
+    var progress = function (done, total, percent) {
+        updateProgressBar(percent);
+        //console.log('progress', done, total, percent);
+    };
+
+    this.upload = function () {
+        updateProgressBar(0);
+        uploader.run();
+    };
+
+    var updateProgressBar = function (percent) {
+        $('#' + progressBarId + ' .progress-bar').css({width: percent + '%'});
+    };
+    
+    this.clear = function () {
+        setValue("");
+    };
+    
+    this.reset = function () {
+        setValue(originalValue);
+    };
+    
+    var setValue = function(value){
+        field.value = value;
+        if (filePreview) {
+            filePreview.style.display = (value == '') ? 'none' : '';
+            filePreview.src = value;
+        }
+    };
+    
+    init(initData);
+}
