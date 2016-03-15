@@ -1,4 +1,4 @@
-function ImageUploadInput(initData) {
+function ImageCroppedUploadInput(initData) {
     var uploader = null;
     var progressBarId = null;
     var field = null;

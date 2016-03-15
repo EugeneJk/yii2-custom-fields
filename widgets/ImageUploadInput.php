@@ -15,7 +15,9 @@ use yii\helpers\Html;
  */
 class ImageUploadInput extends BaseAbstractInput
 {
-    
+     
+    public static $jsClassName = 'ImageUploadInput';
+   
     /**
      * @var string file preview options 
      */
@@ -55,7 +57,14 @@ class ImageUploadInput extends BaseAbstractInput
     public function registerJs()
     {
         parent::registerJs();
-       
+        
+        $this->_registerJsInitCode();
+    }
+
+    /**
+     * Registers js init code
+     */
+    protected function _registerJsInitCode(){
         $initObject = json_encode([
             'fileInputId' => $this->fileUploadButtonOptions['id'],
             'uploadUrl' => $this->uploadActionUrl,
@@ -64,9 +73,9 @@ class ImageUploadInput extends BaseAbstractInput
             'fieldId' => $this->options['id'],
             'filePreviewId' => $this->filePreviewOptions['id'],
         ]);
-        $this->view->registerJs("{$this->javascriptVarName} = new ImageUploadInput($initObject)");
+        $className = static::$jsClassName;
+        $this->view->registerJs("{$this->javascriptVarName} = new {$className}($initObject)");
     }
-
     /**
      * Render current file view
      * @return string

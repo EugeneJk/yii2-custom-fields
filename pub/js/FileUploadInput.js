@@ -27,6 +27,7 @@ function FileUploadInput(initData) {
         } else {
             console.log('success', result);
         }
+        setTimeout(updateProgressBar, 3000, 0);
     };
 
     var failure = function (data) {
