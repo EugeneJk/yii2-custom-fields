@@ -16,7 +16,7 @@ use yii\helpers\Html;
 class ImageCroppedUploadInput extends ImageUploadInput
 {
     
-    public static $jsClassName = 'ImageUploadInput';
+    public static $jsClassName = 'ImageCroppedUploadInput';
     
     /**
      * @inheritdoc
@@ -25,7 +25,4 @@ class ImageCroppedUploadInput extends ImageUploadInput
     {
         parent::init();
     }
-
-
-    
 }

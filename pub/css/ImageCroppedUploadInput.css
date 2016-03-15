@@ -1,0 +1,28 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Mar 15, 2016, 10:19:23 PM
+    Author     : eugene
+*/
+/* line 10, /var/www/yii2-dev/vendor/eugenejk/yii2-custom-fields/pub/less/ImageCroppedUploadInput.less */
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/yii2-dev\/vendor\/eugenejk\/yii2-custom-fields\/pub\/less\/ImageCroppedUploadInput\.less}line{font-family:\0000310}}
+.image-crop-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 9999999;
+  vertical-align: middle;
+  text-align: center;
+}
+/* line 21, /var/www/yii2-dev/vendor/eugenejk/yii2-custom-fields/pub/less/ImageCroppedUploadInput.less */
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/yii2-dev\/vendor\/eugenejk\/yii2-custom-fields\/pub\/less\/ImageCroppedUploadInput\.less}line{font-family:\0000321}}
+.image-crop-overlay img {
+  max-height: 98%;
+  max-width: 99%;
+}

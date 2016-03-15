@@ -27,7 +27,7 @@ function ImageCroppedUploadInput(initData) {
 
     var success = function (result) {
         if (result.success === true) {
-            setValue(result.access_link);
+            makeCroping(result.access_link);
         } else {
             console.log('success', result);
         }
@@ -60,6 +60,23 @@ function ImageCroppedUploadInput(initData) {
     this.reset = function () {
         setValue(originalValue);
         updateProgressBar(0);
+    };
+    
+    var makeCroping = function(imageLink){
+        createOverlay(imageLink);
+//        setValue(value);
+    };
+    
+    var createOverlay = function(imageLink){
+        var overlay = document.createElement('div');
+        overlay.classList.add('image-crop-overlay');
+        overlay.style.lineHeight = window.innerHeight + 'px';
+        document.getElementsByTagName("BODY")[0].appendChild(overlay);
+        
+        var image = document.createElement('img');
+        image.src = imageLink;
+        overlay.appendChild(image);
+
     };
     
     var setValue = function(value){

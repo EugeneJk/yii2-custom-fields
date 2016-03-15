@@ -12,16 +12,18 @@ use yii\web\AssetBundle;
 class CustomFieldsAsset extends AssetBundle
 {
     public $basePath = '@vendor/eugenejk/yii2-custom-fields/';
-    public $sourcePath = '@vendor/eugenejk/yii2-custom-fields/pub/js';
+    public $sourcePath = '@vendor/eugenejk/yii2-custom-fields/pub';
     
     public $js = [
-        'FileUploadButton.js',
-        'FileUploadInput.js',
-        'AjaxFileUploader.js',
-        'ImageUploadInput.js',
+        'js/FileUploadButton.js',
+        'js/FileUploadInput.js',
+        'js/AjaxFileUploader.js',
+        'js/ImageUploadInput.js',
+        'js/ImageCroppedUploadInput.js',
     ];
     
     public $css = [
+        'css/ImageCroppedUploadInput.css',
     ];
     
     public $depends = [
