@@ -20,10 +20,12 @@ class CustomFieldsAsset extends AssetBundle
         'js/AjaxFileUploader.js',
         'js/ImageUploadInput.js',
         'js/ImageCroppedUploadInput.js',
+        'js/fc-cropresizer/fc-cropresizer.js',
     ];
     
     public $css = [
         'css/ImageCroppedUploadInput.css',
+        'js/fc-cropresizer/fc-cropresizer.css',
     ];
     
     public $depends = [

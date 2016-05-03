@@ -12,7 +12,6 @@ use yii\widgets\InputWidget;
 
 use eugenejk\customFields\assets\CustomFieldsAsset;
 use eugenejk\customFields\widgets\buttons\FileUploadButton;
-use eugenejk\customFields\widgets\buttons\UploadActionButton;
 
 /**
  * Template for Custom Inputs
@@ -22,6 +21,7 @@ use eugenejk\customFields\widgets\buttons\UploadActionButton;
 abstract class BaseAbstractInput extends InputWidget
 {
     /**
+     * Form Id is need to pickup _csrf filed for submit verification
      * @var string form id
      */
     public $formId;

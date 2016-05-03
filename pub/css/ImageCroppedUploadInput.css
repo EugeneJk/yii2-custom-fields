@@ -23,6 +23,6 @@ and open the template in the editor.
 /* line 21, /var/www/yii2-dev/vendor/eugenejk/yii2-custom-fields/pub/less/ImageCroppedUploadInput.less */
 @media -sass-debug-info{filename{font-family:file\:\/\/\/var\/www\/yii2-dev\/vendor\/eugenejk\/yii2-custom-fields\/pub\/less\/ImageCroppedUploadInput\.less}line{font-family:\0000321}}
 .image-crop-overlay img {
-  max-height: 98%;
-  max-width: 99%;
+  max-height: 90%;
+  max-width: 90%;
 }

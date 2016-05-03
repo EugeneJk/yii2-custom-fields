@@ -21,7 +21,7 @@ class ImageUploadInput extends BaseAbstractInput
     /**
      * @var string file preview options 
      */
-    public $filePreviewOptions = [];
+    public $imagePreviewOptions = [];
     
     /**
      * @inheritdoc
@@ -41,8 +41,8 @@ class ImageUploadInput extends BaseAbstractInput
             $this->fileUploadButtonOptions['id'] = 'select-file-button-' . $this->_uid;
         }
         
-        if(!isset($this->filePreviewOptions['id'])){
-            $this->filePreviewOptions['id'] = 'file-preview-' . $this->_uid;
+        if(!isset($this->imagePreviewOptions['id'])){
+            $this->imagePreviewOptions['id'] = 'file-preview-' . $this->_uid;
         }
         
         $this->uploadButtonOptions['onclick'] = "{$this->javascriptVarName}.upload();";
@@ -71,7 +71,7 @@ class ImageUploadInput extends BaseAbstractInput
             'formId' => $this->formId,
             'progressBarId' => $this->progressBarOptions['id'],
             'fieldId' => $this->options['id'],
-            'filePreviewId' => $this->filePreviewOptions['id'],
+            'filePreviewId' => $this->imagePreviewOptions['id'],
         ]);
         $className = static::$jsClassName;
         $this->view->registerJs("{$this->javascriptVarName} = new {$className}($initObject)");
@@ -82,11 +82,11 @@ class ImageUploadInput extends BaseAbstractInput
      */
     public function renderView()
     {
-        $this->filePreviewOptions['src'] = $this->hasModel() ? $this->model->{$this->attribute} : $this->value;
+        $this->imagePreviewOptions['src'] = $this->hasModel() ? $this->model->{$this->attribute} : $this->value;
         return Html::tag(
             'img',
             null,
-            $this->filePreviewOptions
+            $this->imagePreviewOptions
         );
     }
     
