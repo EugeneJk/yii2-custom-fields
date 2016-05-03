@@ -26,8 +26,6 @@ class ImageCropperInput extends AbstractInput
      */
     public $imagePreviewOptions = [];
     
-    
-    
     /**
      * @var array crop size [0 => width, 1 => height]
      */
