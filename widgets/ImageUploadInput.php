@@ -50,21 +50,11 @@ class ImageUploadInput extends BaseAbstractInput
         $this->resetButtonOptions['onclick'] = "{$this->javascriptVarName}.reset();";
     }
 
-
     /**
      * @inheritdoc
      */
-    public function registerJs()
+    public function registerJsInitCode()
     {
-        parent::registerJs();
-        
-        $this->_registerJsInitCode();
-    }
-
-    /**
-     * Registers js init code
-     */
-    protected function _registerJsInitCode(){
         $initObject = json_encode([
             'fileInputId' => $this->fileUploadButtonOptions['id'],
             'uploadUrl' => $this->uploadActionUrl,

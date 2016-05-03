@@ -8,7 +8,6 @@ namespace eugenejk\customFields\widgets;
 use Yii;
 use yii\bootstrap\Progress;
 use yii\helpers\Html;
-use yii\widgets\InputWidget;
 
 use eugenejk\customFields\assets\CustomFieldsAsset;
 use eugenejk\customFields\widgets\buttons\FileUploadButton;
@@ -18,7 +17,7 @@ use eugenejk\customFields\widgets\buttons\FileUploadButton;
  *
  * @author Eugene Lazarchuk <shadyjk@yandex.ru>
  */
-abstract class BaseAbstractInput extends InputWidget
+abstract class BaseAbstractInput extends AbstractInput
 {
     /**
      * Form Id is need to pickup _csrf filed for submit verification
@@ -150,37 +149,6 @@ abstract class BaseAbstractInput extends InputWidget
         if (!$this->javascriptVarName) {
             $this->javascriptVarName = 'fileUploadInput_' . $this->_uid;
         }
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function run()
-    {
-        $this->registerJs();
-        return $this->renderWidget();
-    }
-
-    /**
-     * Registers scripts
-     */
-    public function registerJs()
-    {
-        CustomFieldsAsset::register($this->view);
-    }
-
-    /**
-     * Renders widget
-     * @return string
-     */
-    public function renderWidget()
-    {
-        $content = preg_replace_callback("/{\\w+}/", function ($matches) {
-            $content = $this->renderSection($matches[0]);
-            return $content === false ? $matches[0] : $content;
-        }, $this->layout);
-
-        return $content;
     }
 
     /**

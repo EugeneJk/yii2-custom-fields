@@ -56,10 +56,8 @@ class FileUploadInput extends BaseAbstractInput
     /**
      * @inheritdoc
      */
-    public function registerJs()
+    public function registerJsInitCode()
     {
-        parent::registerJs();
-       
         $initObject = json_encode([
             'fileInputId' => $this->fileUploadButtonOptions['id'],
             'uploadUrl' => $this->uploadActionUrl,
