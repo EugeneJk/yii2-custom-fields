@@ -7,27 +7,28 @@ namespace eugenejk\customFields\widgets;
 
 use Yii;
 use yii\helpers\Html;
-use eugenejk\customFields\assets\CustomFieldsAsset;
 /**
- * Custom Image Input Field.
+ * Image Cropper Field.
  * Uses Ajax uploading
  * 
  * @author Eugene Lazarchuk <shadyjk@yandex.ru>
  */
 class ImageCropperInput extends AbstractInput
 {
-    public static $jsClassName = 'ImageUploadInput';
+    public static $jsClassName = 'ImageCropperInput';
     
     /**
-     * @var string widget layout
-     */
-    public $layout = "{field}\n{image}\n{buttons}\n{notification}";
-    
-    /**
-     * @var string widget layout
+     * @inheritdoc
      */
     public $buttonsLayout = "{init}\n{clear}\n{reset}";
 
+    /**
+     * @var array image preview options
+     */
+    public $imagePreviewOptions = [];
+    
+    
+    
     /**
      * @var integer crop width
      */
@@ -41,7 +42,7 @@ class ImageCropperInput extends AbstractInput
     /**
      * @var string mage crop url action
      */
-    public $url = "";
+    public $cropUrl = "";
     
     /**
      * Preview id.
@@ -54,29 +55,15 @@ class ImageCropperInput extends AbstractInput
     public $cropImageId;
 
     /**
-     * javascriptVariableName
-     */
-    public $javascriptVarName;
-    
-    /**
-     * Notification section id.
-     */
-    private $notificationId;
-    
-    /**
      * @inheritdoc
      */
     public function init()
     {
         parent::init();
-        $uid = uniqid();
-        if(empty($this->javascriptVarName)){
-            $this->javascriptVarName = 'cropper_' . $uid;
+        
+        if(!isset($this->imagePreviewOptions['id'])){
+            $this->imagePreviewOptions['id'] = 'cropped-image-preview-' . $this->uid;
         }
-        if(empty($this->previewId)){
-            $this->previewId = 'image-preview_' . $uid;
-        }
-        $this->notificationId = 'notification_' . $uid;
     }
 
     /**
@@ -85,72 +72,34 @@ class ImageCropperInput extends AbstractInput
     public function registerJsInitCode()
     {
         $initObject = json_encode([
-            cropImageId => $this->cropImageId,
-            thumbnailId => $this->options['id'],
-            objectVariableName => $this->javascriptVarName,
-            url => $this->url,
-            thumbnailPreviewId => $this->previewId,
-            notificationAreaId => $this->notificationId,
-            cropWidth => $this->cropWidth,
-            cropHeight => $this->cropHeight,
+            'cropImageId' => $this->cropImageId,
+            'thumbnailId' => $this->options['id'],
+            'objectVariableName' => $this->javascriptVarName,
+            'url' => $this->cropUrl,
+            'thumbnailPreviewId' => $this->imagePreviewOptions['id'],
+            'cropWidth' => $this->cropWidth,
+            'cropHeight' => $this->cropHeight,
         ]);
         $className = static::$jsClassName;
         $this->view->registerJs("{$this->javascriptVarName} = new {$className}($initObject)");
     }
 
-    public function renderSection($name)
+    /**
+     * @inheritdoc
+     */
+    public function renderView()
     {
-        switch ($name) {
-            case '{field}':
-                return $this->renderField();
-            case '{image}':
-                return $this->renderImage();
-            case '{buttons}':
-                return $this->renderButtons();
-            case '{notification}':
-                return $this->renderNotifications();
-            default:
-                return false;
-        }
-    }
-
-    public function renderField(){
-        if ($this->hasModel()) {
-            return Html::activeHiddenInput($this->model, $this->attribute, $this->options);
-        } else {
-            return Html::hiddenInput($this->name, $this->value, $this->options);
-        }
-    }
-    
-    public function renderImage(){
+        $this->imagePreviewOptions['src'] = $this->hasModel() ? $this->model->{$this->attribute} : $this->value;
         return Html::tag(
-            'div',
-            Html::img(
-                empty($this->model->{$this->attribute}) ?  null : $this->model->{$this->attribute},
-                ['id' => $this->previewId]
-            ),
-            ['class' => 'project-upload-element text-center']
+            'img',
+            null,
+            $this->imagePreviewOptions
         );
     }
     
-    public function renderNotifications(){
-        return Html::tag(
-            'div',
-            '',
-            ['id' => $this->notificationId,'class' => 'help-block']
-        );
-    }
-    
-    public function renderButtons(){
-        $content = preg_replace_callback("/{\\w+}/", function ($matches) {
-            $content = $this->renderButton($matches[0]);
-
-            return $content === false ? $matches[0] : $content;
-        }, $this->buttonsLayout);
-        
-        return Html::tag('div', $content,[ 'class' => 'project-upload-element']);
-    }
-    
+    /**
+     * @inheritdoc
+     */
     public function renderButton($button)
     {
         switch ($button) {

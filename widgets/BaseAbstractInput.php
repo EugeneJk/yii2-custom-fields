@@ -20,41 +20,10 @@ use eugenejk\customFields\widgets\buttons\FileUploadButton;
 abstract class BaseAbstractInput extends AbstractInput
 {
     /**
-     * Form Id is need to pickup _csrf filed for submit verification
-     * @var string form id
-     */
-    public $formId;
-    
-    /**
      * @var string form id
      */
     public $uploadActionUrl = '';
     
-    /**
-     * @var string output filename wrapper tag
-     */
-    public $wrapperViewTag = 'div';
-
-    /**
-     * @var string output filename wrapper options
-     */
-    public $wrapperViewOptions = [];
-
-    /**
-     * @var string output filename wrapper tag
-     */
-    public $wrapperButtonTag = 'div';
-
-    /**
-     * @var string output filename wrapper options
-     */
-    public $wrapperButtonOptions = [];
-
-    /**
-     * @var string layout
-     */
-    public $layout = "{view}{buttons}{input}";
-
     /**
      * Layout for buttons.
      */
@@ -93,7 +62,7 @@ abstract class BaseAbstractInput extends AbstractInput
     /**
      * @var string unique id that used for make names unique
      */
-    protected $_uid;
+    public $uid;
 
     /**
      * @inheritdoc
@@ -101,10 +70,21 @@ abstract class BaseAbstractInput extends AbstractInput
     public function init()
     {
         parent::init();
-        $this->_uid = uniqid();
+        
+        if(array_intersect(['model', 'attribute', 'name'], array_keys($this->fileUploadButtonOptions))){
+            throw new Exception('You cannot use model, attribute, name keys in the upload button options ');
+        }
         
         if(!isset($this->progressBarOptions['id'])){
-            $this->progressBarOptions['id'] = 'upload-file-progress-' . $this->_uid;
+            $this->progressBarOptions['id'] = 'upload-file-progress-' . $this->uid;
+        }
+        
+        if(!isset($this->fileUploadButtonOptions['name'])){
+            $this->fileUploadButtonOptions['name'] = 'select-file-button-' . $this->uid;
+        }
+        
+        if(!isset($this->fileUploadButtonOptions['id'])){
+            $this->fileUploadButtonOptions['id'] = 'select-file-button-' . $this->uid;
         }
         
         if(!isset($this->uploadButtonOptions['name'])){
@@ -116,9 +96,7 @@ abstract class BaseAbstractInput extends AbstractInput
         if(!isset($this->uploadButtonOptions['title'])){
             $this->uploadButtonOptions['title'] = 'Upload';
         }
-        if(!isset($this->uploadButtonOptions['onclick'])){
-            $this->uploadButtonOptions['onclick'] = 'alert("ADD UPLOAD ACTION")';
-        }
+        $this->uploadButtonOptions['onclick'] = "{$this->javascriptVarName}.upload();";
         
         if(!isset($this->clearButtonOptions['name'])){
             $this->clearButtonOptions['name'] = 'Clear';
@@ -129,9 +107,7 @@ abstract class BaseAbstractInput extends AbstractInput
         if(!isset($this->clearButtonOptions['title'])){
             $this->clearButtonOptions['title'] = 'Clear';
         }
-        if(!isset($this->clearButtonOptions['onclick'])){
-            $this->clearButtonOptions['onclick'] = 'alert("ADD CLEAR ACTION")';
-        }
+        $this->clearButtonOptions['onclick'] = "{$this->javascriptVarName}.clear();";
 
         if(!isset($this->resetButtonOptions['name'])){
             $this->resetButtonOptions['name'] = 'Restore';
@@ -142,58 +118,11 @@ abstract class BaseAbstractInput extends AbstractInput
         if(!isset($this->resetButtonOptions['title'])){
             $this->resetButtonOptions['title'] = 'Restore to Original';
         }
-        if(!isset($this->resetButtonOptions['onclick'])){
-            $this->resetButtonOptions['onclick'] = 'alert("ADD RESET ACTION")';
-        }
-        
-        if (!$this->javascriptVarName) {
-            $this->javascriptVarName = 'fileUploadInput_' . $this->_uid;
-        }
+        $this->resetButtonOptions['onclick'] = "{$this->javascriptVarName}.reset();";
     }
 
     /**
-     * Renders a section of the specified name.
-     * If the named section is not supported, false will be returned.
-     * @param string $name the section name, e.g., `{image}`, `{thumbnail}`.
-     * @return string|boolean the rendering result of the section, or false if the named section is not supported.
-     */
-    public function renderSection($name)
-    {
-        switch ($name) {
-            case '{buttons}':
-                return Html::tag($this->wrapperButtonTag, $this->renderButtons(), $this->wrapperButtonOptions);
-            case '{view}':
-                return Html::tag($this->wrapperViewTag, $this->renderView(), $this->wrapperViewOptions);
-            case '{input}':
-                return $this->renderField();
-            default:
-                return false;
-        }
-    }
-
-    /**
-     * Renders buttons area
-     * @return string
-     */
-    public function renderButtons()
-    {
-        $content = preg_replace_callback("/{\\w+}/", function ($matches) {
-            $content = $this->renderButton($matches[0]);
-
-            return $content === false ? $matches[0] : $content;
-        }, $this->buttonsLayout);
-
-        return $content;
-    }
-
-    /**
-     * Render view layout
-     */
-    abstract function renderView();
-
-    /**
-     * Render file chouse button
-     * @return string
+     * @inheritdoc
      */
     public function renderButton($buttonName)
     {
@@ -217,18 +146,4 @@ abstract class BaseAbstractInput extends AbstractInput
         }        
         return false;
     }
-
-    /**
-     * Render file input
-     * @return string
-     */
-    public function renderField()
-    {
-        if ($this->hasModel()) {
-            return Html::activeHiddenInput($this->model, $this->attribute, $this->options);
-        } else {
-            return Html::hiddenInput($this->name, $this->value, $this->options);
-        }
-    }
-    
 }

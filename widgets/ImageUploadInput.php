@@ -30,24 +30,9 @@ class ImageUploadInput extends BaseAbstractInput
     {
         parent::init();
         
-        if(array_intersect(['model', 'attribute', 'name'], array_keys($this->fileUploadButtonOptions))){
-            throw new Exception('You cannot use model, attribute, name keys in the upload button options ');
-        }
-        
-        if(!isset($this->fileUploadButtonOptions['name'])){
-            $this->fileUploadButtonOptions['name'] = 'select-file-button-' . $this->_uid;
-        }
-        if(!isset($this->fileUploadButtonOptions['id'])){
-            $this->fileUploadButtonOptions['id'] = 'select-file-button-' . $this->_uid;
-        }
-        
         if(!isset($this->imagePreviewOptions['id'])){
-            $this->imagePreviewOptions['id'] = 'file-preview-' . $this->_uid;
+            $this->imagePreviewOptions['id'] = 'image-preview-' . $this->uid;
         }
-        
-        $this->uploadButtonOptions['onclick'] = "{$this->javascriptVarName}.upload();";
-        $this->clearButtonOptions['onclick'] = "{$this->javascriptVarName}.clear();";
-        $this->resetButtonOptions['onclick'] = "{$this->javascriptVarName}.reset();";
     }
 
     /**
@@ -66,9 +51,9 @@ class ImageUploadInput extends BaseAbstractInput
         $className = static::$jsClassName;
         $this->view->registerJs("{$this->javascriptVarName} = new {$className}($initObject)");
     }
+    
     /**
-     * Render current file view
-     * @return string
+     * @inheritdoc
      */
     public function renderView()
     {

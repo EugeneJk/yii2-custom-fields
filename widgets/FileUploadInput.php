@@ -15,6 +15,8 @@ use yii\helpers\Html;
  */
 class FileUploadInput extends BaseAbstractInput
 {
+    public static $jsClassName = 'FileUploadInput';
+    
     /**
      * @var string file preview tag 
      */
@@ -32,19 +34,8 @@ class FileUploadInput extends BaseAbstractInput
     {
         parent::init();
         
-        if(array_intersect(['model', 'attribute', 'name'], array_keys($this->fileUploadButtonOptions))){
-            throw new Exception('You cannot use model, attribute, name keys in the upload button options ');
-        }
-        
-        if(!isset($this->fileUploadButtonOptions['name'])){
-            $this->fileUploadButtonOptions['name'] = 'select-file-button-' . $this->_uid;
-        }
-        if(!isset($this->fileUploadButtonOptions['id'])){
-            $this->fileUploadButtonOptions['id'] = 'select-file-button-' . $this->_uid;
-        }
-        
         if(!isset($this->filePreviewOptions['id'])){
-            $this->filePreviewOptions['id'] = 'file-preview-' . $this->_uid;
+            $this->filePreviewOptions['id'] = 'file-preview-' . $this->uid;
         }
         
         $this->uploadButtonOptions['onclick'] = "{$this->javascriptVarName}.upload();";
@@ -66,12 +57,12 @@ class FileUploadInput extends BaseAbstractInput
             'fieldId' => $this->options['id'],
             'filePreviewId' => $this->filePreviewOptions['id'],
         ]);
-        $this->view->registerJs("{$this->javascriptVarName} = new FileUploadInput($initObject)");
+        $className = static::$jsClassName;
+        $this->view->registerJs("{$this->javascriptVarName} = new {$className}($initObject)");
     }
 
     /**
-     * Render current file view
-     * @return string
+     * @inheritdoc
      */
     public function renderView()
     {
