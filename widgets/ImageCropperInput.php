@@ -5,7 +5,6 @@
 
 namespace eugenejk\customFields\widgets;
 
-use Yii;
 use yii\helpers\Html;
 /**
  * Image Cropper Field.
@@ -30,24 +29,14 @@ class ImageCropperInput extends AbstractInput
     
     
     /**
-     * @var integer crop width
+     * @var array crop size [0 => width, 1 => height]
      */
-    public $cropWidth = 100;
+    public $cropSize = [100,100];
     
     /**
-     * @var integer crop width
-     */
-    public $cropHeight = 100;
-    
-    /**
-     * @var string mage crop url action
+     * @var string image crop url action
      */
     public $cropUrl = "";
-    
-    /**
-     * Preview id.
-     */
-    public $previewId;
     
     /**
      * Preview id.
@@ -77,8 +66,8 @@ class ImageCropperInput extends AbstractInput
             'objectVariableName' => $this->javascriptVarName,
             'url' => $this->cropUrl,
             'thumbnailPreviewId' => $this->imagePreviewOptions['id'],
-            'cropWidth' => $this->cropWidth,
-            'cropHeight' => $this->cropHeight,
+            'cropWidth' => $this->cropSize[0],
+            'cropHeight' => $this->cropSize[1],
         ]);
         $className = static::$jsClassName;
         $this->view->registerJs("{$this->javascriptVarName} = new {$className}($initObject)");

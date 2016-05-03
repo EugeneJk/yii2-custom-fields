@@ -5,11 +5,9 @@
 
 namespace eugenejk\customFields\widgets;
 
-use Yii;
 use yii\bootstrap\Progress;
 use yii\helpers\Html;
 
-use eugenejk\customFields\assets\CustomFieldsAsset;
 use eugenejk\customFields\widgets\buttons\FileUploadButton;
 
 /**

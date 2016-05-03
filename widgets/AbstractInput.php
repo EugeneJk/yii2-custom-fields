@@ -5,7 +5,6 @@
 
 namespace eugenejk\customFields\widgets;
 
-use Yii;
 use yii\helpers\Html;
 use yii\widgets\InputWidget;
 use eugenejk\customFields\assets\CustomFieldsAsset;

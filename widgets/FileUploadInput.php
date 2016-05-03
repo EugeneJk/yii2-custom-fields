@@ -5,7 +5,6 @@
 
 namespace eugenejk\customFields\widgets;
 
-use Yii;
 use yii\helpers\Html;
 /**
  * Custom File Input Field.
@@ -37,10 +36,6 @@ class FileUploadInput extends BaseAbstractInput
         if(!isset($this->filePreviewOptions['id'])){
             $this->filePreviewOptions['id'] = 'file-preview-' . $this->uid;
         }
-        
-        $this->uploadButtonOptions['onclick'] = "{$this->javascriptVarName}.upload();";
-        $this->clearButtonOptions['onclick'] = "{$this->javascriptVarName}.clear();";
-        $this->resetButtonOptions['onclick'] = "{$this->javascriptVarName}.reset();";
     }
 
 

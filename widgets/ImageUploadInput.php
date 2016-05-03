@@ -5,7 +5,6 @@
 
 namespace eugenejk\customFields\widgets;
 
-use Yii;
 use yii\helpers\Html;
 /**
  * Custom Image Input Field.
