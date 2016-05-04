@@ -31,6 +31,7 @@ function ImageUploadInput(initData) {
         } else {
             console.log('success', result);
         }
+        setTimeout(updateProgressBar, 3000, 0);
     };
 
     var failure = function (data) {
@@ -53,10 +54,12 @@ function ImageUploadInput(initData) {
     
     this.clear = function () {
         setValue("");
+        updateProgressBar(0);
     };
     
     this.reset = function () {
         setValue(originalValue);
+        updateProgressBar(0);
     };
     
     var setValue = function(value){
