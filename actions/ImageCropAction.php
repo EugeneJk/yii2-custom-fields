@@ -19,7 +19,7 @@ class ImageCropAction extends Action
     /**
      * @var string Path where uploaded file will be stored
      */
-    public $savePath;
+    public $uploadRootPath;
     
     /**
      * @inheritdoc
@@ -28,12 +28,12 @@ class ImageCropAction extends Action
     {
         parent::init();
 
-        if (!$this->savePath) {
+        if (!$this->uploadRootPath) {
             throw new InvalidConfigException('The "savePath" attribute must be set.');
         } else {
-            $this->savePath = rtrim(Yii::getAlias($this->savePath), DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
+            $this->uploadRootPath = rtrim(Yii::getAlias($this->uploadRootPath), DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
 
-            if (!file_exists($this->savePath) && !FileHelper::createDirectory($this->savePath)) {
+            if (!file_exists($this->uploadRootPath) && !FileHelper::createDirectory($this->uploadRootPath)) {
                 throw new InvalidCallException('Directory specified in "savePath" attribute doesn\'t exist or cannot be created.');
             }
         }
@@ -49,7 +49,7 @@ class ImageCropAction extends Action
         if (Yii::$app->request->isPost) {
             $params = Yii::$app->request->post();
             $srcImage = $this->getImagePath($params['image']['src']);
-            $image = Image::getImagine()->open(Yii::getAlias($this->savePath . $srcImage));
+            $image = Image::getImagine()->open(Yii::getAlias($this->uploadRootPath . $srcImage));
             $size = $image->getSize()->heighten($params['image']['height']);
             $image->resize($size);
             $image->crop(
@@ -62,7 +62,7 @@ class ImageCropAction extends Action
                     $params['crop']['height']
                 ));
             $destImage = $this->getNewName($srcImage);
-            $image->save(Yii::getAlias($this->savePath . $destImage));
+            $image->save(Yii::getAlias($this->uploadRootPath . $destImage));
             return [
                 'file' => $destImage,
             ];
