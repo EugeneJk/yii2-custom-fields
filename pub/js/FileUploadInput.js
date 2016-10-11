@@ -29,7 +29,7 @@ function FileUploadInput(initData) {
         if (result.success === true) {
             setValue(result.access_link);
             if(afterUpload){
-                afterUpload(result);
+                afterUpload();
             }
         } else {
             console.log('success', result);
