@@ -27,6 +27,14 @@ class FileUploadInput extends BaseAbstractInput
     public $filePreviewOptions = [];
     
     /**
+     *
+     * @var array events for js actions
+     */
+    public $jsEvents = [
+        'afterUpload' => null,
+    ];
+
+    /**
      * @inheritdoc
      */
     public function init()
@@ -51,6 +59,7 @@ class FileUploadInput extends BaseAbstractInput
             'progressBarId' => $this->progressBarOptions['id'],
             'fieldId' => $this->options['id'],
             'filePreviewId' => $this->filePreviewOptions['id'],
+            'events' => $this->jsEvents,
         ]);
         $className = static::$jsClassName;
         $this->view->registerJs("{$this->javascriptVarName} = new {$className}($initObject)");
