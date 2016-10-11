@@ -32,7 +32,7 @@ function ImageUploadInput(initData) {
         if (result.success === true) {
             setValue(result.access_link);
             if(afterUpload){
-                afterUpload();
+                afterUpload(result);
             }            
         } else {
             console.log('success', result);
