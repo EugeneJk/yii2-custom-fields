@@ -4,6 +4,7 @@ function FileUploadInput(initData) {
     var field = null;
     var filePreview = null;
     var originalValue = '';
+    var afterUpload = null;
 
     var init = function (initData) {
         uploader = new AjaxFileUploader({
@@ -19,11 +20,17 @@ function FileUploadInput(initData) {
         field = document.getElementById(initData.fieldId);
         filePreview = document.getElementById(initData.filePreviewId);
         originalValue = field.value;
+        if(initData.events.afterUpload){
+            afterUpload = function(){eval(initData.events.afterUpload);};
+        }
     };
 
     var success = function (result) {
         if (result.success === true) {
             setValue(result.access_link);
+            if(afterUpload){
+                afterUpload(result);
+            }
         } else {
             console.log('success', result);
         }
