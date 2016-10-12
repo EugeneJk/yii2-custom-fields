@@ -50,6 +50,18 @@ class UploadAction extends Action
      * @var boolean 
      */
     public $isUseUniqueFileNames = true;
+    
+    /**
+     * Parameter will work if <b>isUseUniqueFileNames</b> set as <b>true</b>
+     * @var boolean 
+     */
+    public $isUseFileNamesAsPrefix = true;
+    
+    /**
+     * Parameter will work if <b>isUseUniqueFileNames</b> set as <b>true</b>
+     * @var boolean 
+     */
+    public $customPrefix = '';
 
     /**
      * @inheritdoc
@@ -90,9 +102,9 @@ class UploadAction extends Action
                 return $this->getResult(false, implode('; ', $model->getErrors('file')));
             } else {
                 if ($this->isUseUniqueFileNames) {
-                    $filename = uniqid() . '.' . $file->extension;
+                    $filename = uniqid($this->isUseFileNamesAsPrefix ? $file->baseName : $this->customPrefix) . '.' . $file->extension;
                 } else {
-                    $filename = $file->baseName . '_' . time() . '.' . $file->extension;
+                    $filename = $file->baseName . '.' . $file->extension;
                 }
                 if (@$file->saveAs($this->savePath . $filename)) {
                     return $this->getResult(true, '', [
