@@ -1,10 +1,8 @@
 /**
- * @author Eugene Lazarchuk
- */
-
-/**
  * File Upload Input Js File
+ * @author Eugene Lazarchuk
  * @constructor
+ * @param {type} initData
  * @returns {FileUploadInput}
  */
 function FileUploadInput(initData) {
@@ -49,7 +47,7 @@ FileUploadInput.prototype.init = function (initData) {
         uploadUrl: initData.uploadUrl,
         formId: initData.formId,
         success: this.bind(this,this.success),
-        falure: this.bind(this,this.failure),
+        failure: this.bind(this,this.failure),
         progress: this.bind(this,this.progress)
     });
 
@@ -72,11 +70,12 @@ FileUploadInput.prototype.init = function (initData) {
 };
 
 FileUploadInput.prototype.success = function (result) {
+    this.helpBlock.innerHTML = '';
     if(this.helpBlock.parentNode.classList.contains('has-error')){
         this.helpBlock.parentNode.classList.remove('has-error');
     }
     if (result.success === true) {
-        setValue(result.access_link);
+        this.setValue(result.access_link);
         if(this.afterUpload){
             this.afterUpload();
         }
@@ -90,7 +89,10 @@ FileUploadInput.prototype.success = function (result) {
 };
 
 FileUploadInput.prototype.failure = function (data) {
-    console.log('failure', data);
+    this.helpBlock.innerHTML = 'Unknown error';
+    if(!this.helpBlock.parentNode.classList.contains('has-error')){
+        this.helpBlock.parentNode.classList.add('has-error');
+    }
 };
 
 FileUploadInput.prototype.progress = function (done, total, percent) {
@@ -108,10 +110,12 @@ FileUploadInput.prototype.updateProgressBar = function (percent) {
 };
 
 FileUploadInput.prototype.clear = function () {
+    this.updateProgressBar(0);
     this.setValue("");
 };
 
 FileUploadInput.prototype.reset = function () {
+    this.updateProgressBar(0);
     this.setValue(this.originalValue);
 };
 
@@ -121,80 +125,3 @@ FileUploadInput.prototype.setValue = function(value){
         this.preview.innerHTML = value;
     }
 };
-
-
-
-//function FileUploadInput(initData) {
-//    var uploader = null;
-//    var progressBarId = null;
-//    var field = null;
-//    var filePreview = null;
-//    var originalValue = '';
-//    var afterUpload = null;
-//
-//    var init = function (initData) {
-//        uploader = new AjaxFileUploader({
-//            fileInputId: initData.fileInputId,
-//            uploadUrl: initData.uploadUrl,
-//            formId: initData.formId,
-//            success: success,
-//            falure: failure,
-//            progress: progress
-//        });
-//
-//        progressBarId = initData.progressBarId;
-//        field = document.getElementById(initData.fieldId);
-//        filePreview = document.getElementById(initData.filePreviewId);
-//        originalValue = field.value;
-//        if(initData.events.afterUpload){
-//            afterUpload = function(){eval(initData.events.afterUpload);};
-//        }
-//    };
-//
-//    var success = function (result) {
-//        if (result.success === true) {
-//            setValue(result.access_link);
-//            if(afterUpload){
-//                afterUpload();
-//            }
-//        } else {
-//            console.log('success', result);
-//        }
-//        setTimeout(updateProgressBar, 3000, 0);
-//    };
-//
-//    var failure = function (data) {
-//        console.log('failure', data);
-//    };
-//
-//    var progress = function (done, total, percent) {
-//        updateProgressBar(percent);
-//        //console.log('progress', done, total, percent);
-//    };
-//
-//    this.upload = function () {
-//        updateProgressBar(0);
-//        uploader.run();
-//    };
-//
-//    var updateProgressBar = function (percent) {
-//        $('#' + progressBarId + ' .progress-bar').css({width: percent + '%'});
-//    };
-//    
-//    this.clear = function () {
-//        setValue("");
-//    };
-//    
-//    this.reset = function () {
-//        setValue(originalValue);
-//    };
-//    
-//    var setValue = function(value){
-//        field.value = value;
-//        if (filePreview) {
-//            filePreview.innerHTML = value;
-//        }
-//    };
-//    
-//    init(initData);
-//}
