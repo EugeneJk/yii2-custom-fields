@@ -117,16 +117,16 @@ class UploadAction extends Action
             throw new BadRequestHttpException('Only Post request allowed for this action!');
         }
 
-        $uploads_dir = '/var/tmp';
-        if ($_FILES["file"]["error"] == UPLOAD_ERR_OK) {
-            $tmp_name = $_FILES["file"]["tmp_name"];
-            $name = $_FILES["file"]["name"];
-            move_uploaded_file($tmp_name, "$uploads_dir/$name");
-        }
-        return [
-        'success' => true,
-        'value' => '/uploads/some.file.txt',
-        ];
+//        $uploads_dir = '/var/tmp';
+//        if ($_FILES["file"]["error"] == UPLOAD_ERR_OK) {
+//            $tmp_name = $_FILES["file"]["tmp_name"];
+//            $name = $_FILES["file"]["name"];
+//            move_uploaded_file($tmp_name, "$uploads_dir/$name");
+//        }
+//        return [
+//        'success' => true,
+//        'value' => '/uploads/some.file.txt',
+//        ];
     }
 
     /**
