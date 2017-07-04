@@ -43,21 +43,6 @@ abstract class BaseAbstractInput extends AbstractInput
     public $uploadButtonOptions = [];
 
     /**
-     * @var array clear button options
-     */
-    public $clearButtonOptions = [];
-    
-    /**
-     * @var array reset button options
-     */
-    public $resetButtonOptions = [];
-    
-    /**
-     * @var string java script variable name which controls forntend behaviour
-     */
-    public $javascriptVarName;
-
-    /**
      * @var string unique id that used for make names unique
      */
     public $uid;
@@ -95,28 +80,6 @@ abstract class BaseAbstractInput extends AbstractInput
             $this->uploadButtonOptions['title'] = 'Upload';
         }
         $this->uploadButtonOptions['onclick'] = "{$this->javascriptVarName}.upload();";
-        
-        if(!isset($this->clearButtonOptions['name'])){
-            $this->clearButtonOptions['name'] = 'Clear';
-        }
-        if(!isset($this->clearButtonOptions['class'])){
-            $this->clearButtonOptions['class'] = 'btn btn-warning pull-right';
-        }
-        if(!isset($this->clearButtonOptions['title'])){
-            $this->clearButtonOptions['title'] = 'Clear';
-        }
-        $this->clearButtonOptions['onclick'] = "{$this->javascriptVarName}.clear();";
-
-        if(!isset($this->resetButtonOptions['name'])){
-            $this->resetButtonOptions['name'] = 'Restore';
-        }
-        if(!isset($this->resetButtonOptions['class'])){
-            $this->resetButtonOptions['class'] = 'btn btn-default pull-right';
-        }
-        if(!isset($this->resetButtonOptions['title'])){
-            $this->resetButtonOptions['title'] = 'Restore to Original';
-        }
-        $this->resetButtonOptions['onclick'] = "{$this->javascriptVarName}.reset();";
     }
 
     /**

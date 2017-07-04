@@ -55,6 +55,16 @@ abstract class AbstractInput extends InputWidget
     public $buttonsLayout = '';
         
     /**
+     * @var array clear button options
+     */
+    public $clearButtonOptions = [];
+    
+    /**
+     * @var array reset button options
+     */
+    public $resetButtonOptions = [];
+    
+    /**
      * @var string java script variable name which controls forntend behaviour
      */
     public $javascriptVarName;
@@ -74,6 +84,28 @@ abstract class AbstractInput extends InputWidget
         $this->uid = uniqid();
         
         $this->javascriptVarName = lcfirst(static::$jsClassName) . '_' . $this->uid;
+
+        if(!isset($this->clearButtonOptions['name'])){
+            $this->clearButtonOptions['name'] = 'Clear';
+        }
+        if(!isset($this->clearButtonOptions['class'])){
+            $this->clearButtonOptions['class'] = 'btn btn-warning pull-right';
+        }
+        if(!isset($this->clearButtonOptions['title'])){
+            $this->clearButtonOptions['title'] = 'Clear';
+        }
+        $this->clearButtonOptions['onclick'] = "{$this->javascriptVarName}.clear();";
+
+        if(!isset($this->resetButtonOptions['name'])){
+            $this->resetButtonOptions['name'] = 'Restore';
+        }
+        if(!isset($this->resetButtonOptions['class'])){
+            $this->resetButtonOptions['class'] = 'btn btn-default pull-right';
+        }
+        if(!isset($this->resetButtonOptions['title'])){
+            $this->resetButtonOptions['title'] = 'Restore to Original';
+        }
+        $this->resetButtonOptions['onclick'] = "{$this->javascriptVarName}.reset();";
     }
     
     /**
