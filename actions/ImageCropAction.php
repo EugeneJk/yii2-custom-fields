@@ -48,7 +48,7 @@ class ImageCropAction extends Action
         
         if (Yii::$app->request->isPost) {
             $params = Yii::$app->request->post();
-            $srcImage = $this->getImagePath($params['image']['src']);
+            $srcImage = $this->getImagePath(urldecode($params['image']['src']));
             $image = Image::getImagine()->open(Yii::getAlias($this->uploadRootPath . $srcImage));
             $size = $image->getSize()->heighten($params['image']['height']);
             $image->resize($size);

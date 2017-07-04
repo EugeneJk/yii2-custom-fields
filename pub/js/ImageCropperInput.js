@@ -25,7 +25,8 @@ function ImageCropperInput(options)
                 notificationArea.parentElement.classList.remove('has-error');
             }
         }
-        if( $(imageToCrop).attr('src') !== ''){
+        console.log('image-to-crop>>',$(imageToCrop).attr('src'));
+        if( $(imageToCrop).attr('src') !== '' && $(imageToCrop).attr('src') !== undefined){
             showCroppingLayout();
             cropresizer.getObject(cropperImageId).init({
                 cropWidth : this.cropWidth,

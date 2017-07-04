@@ -65,6 +65,15 @@ class ImageUploadInput extends BaseAbstractInput
      */
     public function renderView()
     {
+        if(array_key_exists('class', $this->imagePreviewOptions)){
+            if(is_array($this->imagePreviewOptions['class'])){
+                $this->imagePreviewOptions['class'][] = 'image-preview';
+            } else {
+                $this->imagePreviewOptions['class'] .= 'image-preview';
+            }
+        } else {
+            $this->imagePreviewOptions['class'] = 'image-preview';
+        }
         $this->imagePreviewOptions['src'] = $this->hasModel() ? $this->model->{$this->attribute} : $this->value;
         return Html::tag(
             'img',

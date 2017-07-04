@@ -24,6 +24,7 @@ class CustomFieldsAsset extends AssetBundle
     ];
     
     public $css = [
+        'css/ImageUploadInput.css',
         'css/ImageCropperInput.css',
         'js/fc-cropresizer/fc-cropresizer.css',
     ];

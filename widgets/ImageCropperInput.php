@@ -19,7 +19,7 @@ class ImageCropperInput extends AbstractInput
     /**
      * @inheritdoc
      */
-    public $buttonsLayout = "{init}\n{clear}\n{reset}";
+    public $buttonsLayout = "{crop}\n{clear}\n{reset}";
 
     /**
      * @var array image preview options
@@ -37,9 +37,15 @@ class ImageCropperInput extends AbstractInput
     public $cropUrl = "";
     
     /**
-     * Preview id.
+     * @var string Preview id.
      */
     public $cropImageId;
+    
+    /**
+     *
+     * @var array crop button names
+     */
+    public $cropButtonOptions = [];
 
     /**
      * @inheritdoc
@@ -51,6 +57,17 @@ class ImageCropperInput extends AbstractInput
         if(!isset($this->imagePreviewOptions['id'])){
             $this->imagePreviewOptions['id'] = 'cropped-image-preview-' . $this->uid;
         }
+        
+        if(!isset($this->cropButtonOptions['name'])){
+            $this->cropButtonOptions['name'] = 'Crop';
+        }
+        if(!isset($this->cropButtonOptions['class'])){
+            $this->cropButtonOptions['class'] = 'btn btn-primary';
+        }
+        if(!isset($this->cropButtonOptions['title'])){
+            $this->cropButtonOptions['title'] = 'Crop';
+        }
+        $this->cropButtonOptions['onclick'] = "{$this->javascriptVarName}.activateCrop();";
     }
 
     /**
@@ -90,30 +107,18 @@ class ImageCropperInput extends AbstractInput
     public function renderButton($button)
     {
         switch ($button) {
-            case '{init}':
-                $content = '<i class="glyphicon glyphicon-file"></i>';
-                $options = [
-                    'class' => 'btn btn-primary crop-btn-init',
-                    'title' => 'Create',
-                    'onclick' => "{$this->javascriptVarName}.activateCrop();return false;",
-                ];
-                break;
+            case '{crop}':
+                $name = $this->cropButtonOptions['name'];
+                unset($this->cropButtonOptions['name']);
+                return Html::button($name, $this->cropButtonOptions); 
             case '{clear}':
-                $content = '<i class="glyphicon glyphicon glyphicon-trash"></i>';
-                $options = [
-                    'class' => 'btn btn-warning crop-btn-clear',
-                    'title' => 'Clear',
-                    'onclick' => "{$this->javascriptVarName}.clear(false);return false;",
-                ];
-                break;
+                $name = $this->clearButtonOptions['name'];
+                unset($this->clearButtonOptions['name']);
+                return Html::button($name, $this->clearButtonOptions); 
             case '{reset}':
-                $content = '<i class="glyphicon glyphicon-picture"></i>';
-                $options = [
-                    'class' => 'btn btn-default crop-btn-reset',
-                    'title' => 'Original',
-                    'onclick' => "{$this->javascriptVarName}.clear(true);return false;",
-                ];
-                break;
+                $name = $this->resetButtonOptions['name'];
+                unset($this->resetButtonOptions['name']);
+                return Html::button($name, $this->resetButtonOptions); 
             default:
                 $content = '';
                 $options = [];
