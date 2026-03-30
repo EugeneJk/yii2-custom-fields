@@ -5,7 +5,7 @@
 
 namespace eugenejk\customFields\widgets;
 
-use yii\bootstrap\Progress;
+use yii\bootstrap5\Progress;
 use yii\helpers\Html;
 
 use eugenejk\customFields\widgets\buttons\FileUploadButton;
@@ -60,6 +60,9 @@ abstract class BaseAbstractInput extends AbstractInput
         
         if(!isset($this->progressBarOptions['id'])){
             $this->progressBarOptions['id'] = 'upload-file-progress-' . $this->uid;
+        }
+        if(!isset($this->progressBarOptions['label'])){
+            $this->progressBarOptions['label'] = '';
         }
         
         if(!isset($this->fileUploadButtonOptions['name'])){

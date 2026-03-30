@@ -69,7 +69,7 @@ class FileUploadButton extends InputWidget
             $this->buttonOptions['id'] = 'upload-button-' . $uid;
         }
         if (!array_key_exists('class', $this->buttonOptions)) {
-            $this->buttonOptions['class'] = ['btn', 'btn-default'];
+            $this->buttonOptions['class'] = ['btn', 'btn-secondary'];
         }
 
         if (!array_key_exists('style', $this->options)) {
