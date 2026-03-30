@@ -100,7 +100,7 @@ abstract class AbstractInput extends InputWidget
             $this->resetButtonOptions['name'] = 'Restore';
         }
         if(!isset($this->resetButtonOptions['class'])){
-            $this->resetButtonOptions['class'] = 'btn btn-default pull-right';
+            $this->resetButtonOptions['class'] = 'btn btn-secondary pull-right';
         }
         if(!isset($this->resetButtonOptions['title'])){
             $this->resetButtonOptions['title'] = 'Restore to Original';

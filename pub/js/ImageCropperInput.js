@@ -122,12 +122,12 @@ function ImageCropperInput(options)
         }).appendTo($("#" + cropperOverlayId));
         
         $("<button/>",{
-            class:"cropper-button-close btn btn-default pull-right",
+            class:"cropper-button-close btn btn-secondary",
             onclick: options.objectVariableName + '.close();return false;'
         }).html('Close <i class="glyphicon glyphicon-remove"></i>').appendTo($("#" + cropperOverlayFooterId));
         
         $("<button/>",{
-            class:"cropper-button-close btn btn-success pull-right",
+            class:"cropper-button-close btn btn-success",
             onclick: options.objectVariableName + '.crop();return false;'
         }).html('Apply <i class="glyphicon glyphicon-ok"></i>').appendTo($("#" + cropperOverlayFooterId));
     };
