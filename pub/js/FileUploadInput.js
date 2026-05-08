@@ -48,8 +48,15 @@ FileUploadInput.prototype.init = function (initData) {
         formId: initData.formId,
         success: this.bind(this,this.success),
         failure: this.bind(this,this.failure),
-        progress: this.bind(this,this.progress)
+        progress: this.bind(this,this.progress),
+        isUploadOnSelect: initData.isUploadOnSelect,
     });
+    if(initData.isUploadOnSelect){
+        var input = document.getElementById(initData.fileInputId);
+        input.addEventListener('change', () => {
+            if(input.files[0]) this.upload();
+        });
+    }
 
     this.progressBarId = initData.progressBarId;
     this.field = document.getElementById(initData.fieldId);

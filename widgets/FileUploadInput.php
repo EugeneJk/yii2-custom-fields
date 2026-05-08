@@ -15,7 +15,7 @@ use yii\helpers\Html;
 class FileUploadInput extends BaseAbstractInput
 {
     public static $jsClassName = 'FileUploadInput';
-    
+
     /**
      * @var string file preview tag 
      */
@@ -33,6 +33,12 @@ class FileUploadInput extends BaseAbstractInput
     public $jsEvents = [
         'afterUpload' => null,
     ];
+    
+    /**
+     * Autoupload file on select
+     * @var boolean
+     */
+    public $isUploadOnSelect = false;
 
     /**
      * @inheritdoc
@@ -60,6 +66,7 @@ class FileUploadInput extends BaseAbstractInput
             'fieldId' => $this->options['id'],
             'filePreviewId' => $this->filePreviewOptions['id'],
             'events' => $this->jsEvents,
+            'isUploadOnSelect' => $this->isUploadOnSelect,
         ]);
         $className = static::$jsClassName;
         $this->view->registerJs("{$this->javascriptVarName} = new {$className}($initObject)");
