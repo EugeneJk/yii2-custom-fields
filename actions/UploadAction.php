@@ -102,13 +102,13 @@ class UploadAction extends Action
                 return $this->getResult(false, implode('; ', $model->getErrors('file')));
             } else {
                 if ($this->isUseUniqueFileNames) {
-                    $filename = uniqid($this->isUseFileNamesAsPrefix ? $file->baseName : $this->customPrefix) . '.' . $file->extension;
+                    $filename = uniqid(($this->isUseFileNamesAsPrefix ? $file->baseName : $this->customPrefix) . '-') . '.' . $file->extension;
                 } else {
                     $filename = $file->baseName . '.' . $file->extension;
                 }
-                if (@$file->saveAs($this->savePath . $filename)) {
+                if ($file->saveAs($this->savePath . urldecode($filename))) {
                     return $this->getResult(true, '', [
-                        'access_link' => $this->accessUrl . $filename,
+                        'access_link' => $this->accessUrl . urlencode(urldecode($filename)),
                     ]);
                 }
                 return $this->getResult(false, 'File can\'t be placed to destination folder');
