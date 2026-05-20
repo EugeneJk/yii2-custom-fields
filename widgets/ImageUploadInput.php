@@ -55,6 +55,7 @@ class ImageUploadInput extends BaseAbstractInput
             'fieldId' => $this->options['id'],
             'filePreviewId' => $this->imagePreviewOptions['id'],
             'events' => $this->jsEvents,
+            'isUploadOnSelect' => $this->isUploadOnSelect,
         ]);
         $className = static::$jsClassName;
         $this->view->registerJs("{$this->javascriptVarName} = new {$className}($initObject)");

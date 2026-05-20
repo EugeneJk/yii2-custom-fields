@@ -35,12 +35,6 @@ class FileUploadInput extends BaseAbstractInput
     ];
     
     /**
-     * Autoupload file on select
-     * @var boolean
-     */
-    public $isUploadOnSelect = false;
-
-    /**
      * @inheritdoc
      */
     public function init()

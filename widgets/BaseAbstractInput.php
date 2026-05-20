@@ -48,6 +48,12 @@ abstract class BaseAbstractInput extends AbstractInput
     public $uid;
 
     /**
+     * Autoupload file on select
+     * @var boolean
+     */
+    public $isUploadOnSelect = false;
+    
+    /**
      * @inheritdoc
      */
     public function init()
