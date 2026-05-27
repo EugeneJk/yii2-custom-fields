@@ -108,7 +108,7 @@ class UploadAction extends Action
                 }
                 if ($file->saveAs($this->savePath . urldecode($filename))) {
                     return $this->getResult(true, '', [
-                        'access_link' => $this->accessUrl . urlencode(urldecode($filename)),
+                        'access_link' => $this->accessUrl . urldecode($filename),
                     ]);
                 }
                 return $this->getResult(false, 'File can\'t be placed to destination folder');
